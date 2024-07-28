@@ -5,15 +5,239 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/search_button"
+        app:layout_constraintEnd_toStartOf="@id/notification_button"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="12dp"
+        android:src="@drawable/search_button_icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/notification_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="6dp"
+        android:padding="12dp"
+        android:src="@drawable/notifications_button_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/banner_view"
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="248dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/search_button">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginEnd="8dp"
+            android:id="@+id/banner1"
+            android:layout_width="16dp"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/banner1_image"
+                    android:src="@drawable/banner1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tintMode="src_atop"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:elevation="10dp"
+                android:id="@+id/banner1_text"
+                android:visibility="visible"
+                android:gravity="start"
+                android:textSize="20sp"
+                android:lineHeight="28dp"
+                android:textColor="@color/gray100"
+                android:fontFamily="@font/w_semibold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="열다섯글자열다섯글자열다섯글자열다섯글자열다섯"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginEnd="8dp"
+            android:id="@+id/banner2"
+            android:layout_width="16dp"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/banner2_image"
+                    android:src="@drawable/banner2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tintMode="src_atop"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:elevation="10dp"
+                android:id="@+id/banner2_text"
+                android:visibility="gone"
+                android:gravity="start"
+                android:textSize="20sp"
+                android:lineHeight="28dp"
+                android:textColor="@color/gray100"
+                android:fontFamily="@font/w_semibold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="열다섯글자열다섯글자열다섯글자열다섯글자열다섯"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginEnd="8dp"
+            android:id="@+id/banner3"
+            android:layout_width="16dp"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/banner3_image"
+                    android:src="@drawable/banner3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tintMode="src_atop"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:elevation="10dp"
+                android:id="@+id/banner3_text"
+                android:visibility="gone"
+                android:gravity="start"
+                android:textSize="20sp"
+                android:lineHeight="28dp"
+                android:textColor="@color/gray100"
+                android:fontFamily="@font/w_semibold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="열다섯글자열다섯글자열다섯글자열다섯글자열다섯"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginEnd="8dp"
+            android:id="@+id/banner4"
+            android:layout_width="16dp"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/banner4_image"
+                    android:src="@drawable/banner4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tintMode="src_atop"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:elevation="10dp"
+                android:id="@+id/banner4_text"
+                android:visibility="gone"
+                android:gravity="start"
+                android:textSize="20sp"
+                android:lineHeight="28dp"
+                android:textColor="@color/gray100"
+                android:fontFamily="@font/w_semibold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="열다섯글자열다섯글자열다섯글자열다섯글자열다섯"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/banner5"
+            android:layout_width="16dp"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/banner5_image"
+                    android:src="@drawable/banner5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tintMode="src_atop"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:elevation="10dp"
+                android:id="@+id/banner5_text"
+                android:visibility="gone"
+                android:gravity="start"
+                android:textSize="20sp"
+                android:lineHeight="28dp"
+                android:textColor="@color/gray100"
+                android:fontFamily="@font/w_semibold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="열다섯글자열다섯글자열다섯글자열다섯글자열다섯"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
