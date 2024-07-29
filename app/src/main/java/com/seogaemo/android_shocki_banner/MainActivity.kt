@@ -1,9 +1,11 @@
 package com.seogaemo.android_shocki_banner
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -24,13 +26,13 @@ class MainActivity : AppCompatActivity() {
         listOf(binding.banner1Image, binding.banner2Image, binding.banner3Image, binding.banner4Image, binding.banner5Image)
     }
 
-    private var index = 0
+    private var index = -1
     private var isLeft = true
 
     private val handler = Handler()
     private val runnable = object : Runnable {
         override fun run() {
-            doSomething(isLeft)
+            doSomething()
             handler.postDelayed(this, 5000)
             isLeft = true
         }
@@ -84,7 +86,25 @@ class MainActivity : AppCompatActivity() {
         return (dp * density).toInt()
     }
 
-    private fun doSomething(isLeft: Boolean) {
+    private fun updateIndex() {
+        if (isLeft) {
+            if (index + 1 < 5) {
+                index += 1
+            } else {
+                index = 0
+            }
+        } else {
+            if (index - 1 < 0) {
+                index = 4
+            } else {
+                index -= 1
+            }
+        }
+    }
+
+    private fun doSomething() {
+        updateIndex()
+
         val viewWidth = setView()
         val layoutParams = viewList[index].layoutParams as LinearLayout.LayoutParams
         layoutParams.width = viewWidth
@@ -94,20 +114,6 @@ class MainActivity : AppCompatActivity() {
         textList[index].visibility = View.VISIBLE
 
         imageList[index].clearColorFilter()
-
-        if (isLeft) {
-            if (index+1 < 5) {
-                index+=1
-            } else {
-                index = 0
-            }
-        } else {
-            if (index-1 < 0) {
-                index = 4
-            } else {
-                index-=1
-            }
-        }
     }
 
     override fun onDestroy() {
