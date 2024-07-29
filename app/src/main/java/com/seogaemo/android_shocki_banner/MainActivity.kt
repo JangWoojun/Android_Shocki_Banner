@@ -5,8 +5,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,6 +16,9 @@ import com.seogaemo.android_shocki_banner.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private var bannerWidth: Int? = null
+
     private val viewList: List<ConstraintLayout> by lazy {
         listOf(binding.banner1, binding.banner2, binding.banner3, binding.banner4, binding.banner5)
     }
@@ -26,13 +29,13 @@ class MainActivity : AppCompatActivity() {
         listOf(binding.banner1Image, binding.banner2Image, binding.banner3Image, binding.banner4Image, binding.banner5Image)
     }
 
-    private var index = -1
+    private var index = 0
     private var isLeft = true
 
     private val handler = Handler()
     private val runnable = object : Runnable {
         override fun run() {
-            doSomething()
+            updateView()
             handler.postDelayed(this, 5000)
             isLeft = true
         }
@@ -44,7 +47,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        handler.post(runnable)
+        initView()
+        handler.postDelayed(runnable, 5000)
 
         binding.bannerView.setOnTouchListener(object: OnSwipeTouchListener(this@MainActivity) {
             override fun onSwipeLeft() {
@@ -60,30 +64,66 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setView(): Int {
-        val viewWidth = if (this.applicationContext?.resources?.displayMetrics?.widthPixels != null) {
-            (this.applicationContext?.resources?.displayMetrics?.widthPixels!! - dpToPx(32)) * 0.0488
-        } else {
-            0
-        }.toInt()
+    private fun initView() {
+        val viewWidth = dpToPx(16)
 
         viewList.forEachIndexed { index, it ->
-            val layoutParams = it.layoutParams as LinearLayout.LayoutParams
-            layoutParams.width = viewWidth
-            layoutParams.weight = 0f
-            it.layoutParams = layoutParams
+            if (index == 0) {
+                val layoutParams = it.layoutParams as LinearLayout.LayoutParams
+                layoutParams.width = viewWidth
+                layoutParams.weight = 1f
+                it.layoutParams = layoutParams
 
-            textList[index].visibility = View.GONE
+                textList[index].visibility = View.VISIBLE
+                imageList[index].clearColorFilter()
 
-            imageList[index].setColorFilter(Color.parseColor("#80000000"))
+                calculateWidth(it)
+            } else {
+                val layoutParams = it.layoutParams as LinearLayout.LayoutParams
+                layoutParams.width = viewWidth
+                layoutParams.weight = 0f
+                it.layoutParams = layoutParams
+
+                textList[index].visibility = View.INVISIBLE
+                imageList[index].setColorFilter(Color.parseColor("#80000000"))
+            }
         }
-
-        return viewWidth
     }
 
-    private fun dpToPx(dp: Int): Int {
-        val density = this.resources.displayMetrics.density
-        return (dp * density).toInt()
+    private fun updateView() {
+        val previousViewWidth = dpToPx(16)
+        bannerWidth?.let { nextViewWidth ->
+            val previousView = viewList[index]
+            val previousLayoutParams = previousView.layoutParams as LinearLayout.LayoutParams
+            val previousAnimator = ValueAnimator.ofInt(nextViewWidth, previousViewWidth)
+            previousAnimator.addUpdateListener { animation ->
+                val animatedValue = animation.animatedValue as Int
+                previousLayoutParams.width = animatedValue
+                previousView.layoutParams = previousLayoutParams
+            }
+            previousAnimator.duration = 300
+            previousAnimator.start()
+
+            textList[index].visibility = View.INVISIBLE
+            imageList[index].setColorFilter(Color.parseColor("#80000000"))
+
+            updateIndex()
+
+            val nextView = viewList[index]
+            val nextLayoutParams = nextView.layoutParams as LinearLayout.LayoutParams
+            val nextAnimator = ValueAnimator.ofInt(previousViewWidth, nextViewWidth)
+            nextAnimator.addUpdateListener { animation ->
+                val animatedValue = animation.animatedValue as Int
+                if (animatedValue == nextViewWidth) {
+                    textList[index].visibility = View.VISIBLE
+                }
+                imageList[index].clearColorFilter()
+                nextLayoutParams.width = animatedValue
+                nextView.layoutParams = nextLayoutParams
+            }
+            nextAnimator.duration = 300
+            nextAnimator.start()
+        }
     }
 
     private fun updateIndex() {
@@ -102,18 +142,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun doSomething() {
-        updateIndex()
+    private fun calculateWidth(view: View) {
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                bannerWidth = view.width
+            }
+        })
+    }
 
-        val viewWidth = setView()
-        val layoutParams = viewList[index].layoutParams as LinearLayout.LayoutParams
-        layoutParams.width = viewWidth
-        layoutParams.weight = 1f
-        viewList[index].layoutParams = layoutParams
-
-        textList[index].visibility = View.VISIBLE
-
-        imageList[index].clearColorFilter()
+    private fun dpToPx(dp: Int): Int {
+        val density = this.resources.displayMetrics.density
+        return (dp * density).toInt()
     }
 
     override fun onDestroy() {
