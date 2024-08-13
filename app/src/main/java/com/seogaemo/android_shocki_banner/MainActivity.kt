@@ -25,6 +25,23 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewPager.apply {
             this.adapter = ViewPagerAdapter(datas)
+            this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrollStateChanged(p0: Int) {
+                }
+
+                override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+                }
+                override fun onPageSelected(p0: Int) {
+                    indicatorList.forEach { it.setBackgroundResource(R.drawable.shape_circle_gray) }
+                    when(p0){
+                        0 -> indicatorList[0].setBackgroundResource(R.drawable.shape_circle_green)
+                        1 -> indicatorList[1].setBackgroundResource(R.drawable.shape_circle_green)
+                        2 -> indicatorList[2].setBackgroundResource(R.drawable.shape_circle_green)
+                        3 -> indicatorList[3].setBackgroundResource(R.drawable.shape_circle_green)
+                        else -> indicatorList[1].setBackgroundResource(R.drawable.shape_circle_green)
+                    }
+                }
+            })
         }
 
     }
