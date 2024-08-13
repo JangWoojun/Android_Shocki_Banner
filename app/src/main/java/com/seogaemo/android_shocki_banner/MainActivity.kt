@@ -12,6 +12,8 @@ import com.seogaemo.android_shocki_banner.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val indicatorList by lazy { listOf(binding.indicator0, binding.indicator1, binding.indicator2, binding.indicator3) }
+    private val datas = mutableListOf("정성담아 키워낸,\n해남 황토 꿀고구마", "정성담아 키워낸,\n해남 황토 꿀고구마", "정성담아 키워낸,\n해남 황토 꿀고구마", "정성담아 키워낸,\n해남 황토 꿀고구마")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupWindowInsets()
+
+        binding.viewPager.apply {
+            this.adapter = ViewPagerAdapter(datas)
+        }
+
     }
 
     private fun setupWindowInsets() {
