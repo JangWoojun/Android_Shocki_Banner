@@ -13,12 +13,10 @@ class ViewPagerAdapter(private val datas: MutableList<String>):
     }
 
     override fun onBindViewHolder(holder: ViewPagerAdapter.ViewHolder, position: Int) {
-        holder.bind(datas[position])
+        holder.bind(datas[position % datas.size])
     }
 
-    override fun getItemCount(): Int {
-        return datas.size
-    }
+    override fun getItemCount(): Int = Int.MAX_VALUE
 
     inner class ViewHolder(private val binding : BannerItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item : String){
